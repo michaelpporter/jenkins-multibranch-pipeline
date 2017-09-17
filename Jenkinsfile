@@ -44,12 +44,13 @@ properties(
     lock(resource: 'example', inversePrecedence: true) {
      node {
         stage('Build') {
-          checkout scm
+          dir ("/var/www/${siteName}") {
+            checkout scm
+          }
           if (!fileExists("/var/www/${siteName}/web/sites/default/settings.local.php")) {
             sh """
             echo \"#!/bin/bash\" > /var/jenkins_home/cleanup/${logName}.txt
             echo \"# ${env.BRANCH_NAME}\" >> /var/jenkins_home/cleanup/${logName}.txt
-            echo \"# ${gitURL}\" >> /var/jenkins_home/cleanup/${logName}.txt
             echo \"cd /var/www/${siteName}/www\" >> /var/jenkins_home/cleanup/${logName}.txt
             echo \"sudo fdperms\" >> /var/jenkins_home/cleanup/${logName}.txt
             echo \"drush sql-query 'DROP DATABASE IF EXISTS ${dbName};'\" >> /var/jenkins_home/cleanup/${logName}.txt
