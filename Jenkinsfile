@@ -73,7 +73,7 @@ properties(
               //       string(name: 'SITE_FOLDER', value: "${siteFolder}"),
               //       string(name: 'DOMAIN_NAME', value: "${domainName}"),
               //       string(name: 'SITE_NAME', value: "${siteName}")]
-              // }
+              }
             }
          } // end if fileexists
     } // stage build
