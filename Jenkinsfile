@@ -17,9 +17,9 @@ properties(
             numToKeepStr: '5'
         )
      ),
-    [$class: 'RebuildSettings',
-        autoRebuild: false,
-        rebuildDisabled: false],
+    // [$class: 'RebuildSettings',
+    //     autoRebuild: false,
+    //     rebuildDisabled: false],
      pipelineTriggers([])])
 // Variables used in this script.
     // set to /www if the repo root is the site root
