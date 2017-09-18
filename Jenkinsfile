@@ -97,13 +97,13 @@ properties(
 #            drush updb -y
 #            drush cr
             """
-            gitMessage = sh(returnStdout: true, script: 'git log -1').trim()
-            gitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-            def triads = gitMessage.find("((?<!([A-Za-z]{1,10})-?)[A-Z]+-\\d+)")
-            // Send a message to your ticketing tool or slack
-            echo "${triads}"
+            // gitMessage = sh(returnStdout: true, script: 'git log -1').trim()
+            // gitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            // def triads = gitMessage.find("((?<!([A-Za-z]{1,10})-?)[A-Z]+-\\d+)")
+            // // Send a message to your ticketing tool or slack
+            // echo "${triads}"
             }
-      } // end stage
+      } // end stage Config
       } // end node
     } // end lock
 
