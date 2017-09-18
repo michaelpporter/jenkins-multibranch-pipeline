@@ -87,7 +87,8 @@ properties(
        stage('Config') {
             dir ("/var/jenkins_home/web-root/${siteName}") {
             sh """
-            git pull origin ${env.BRANCH_NAME}
+            # checkout scm checks out the commit hash
+            git checkout ${env.BRANCH_NAME}
             git remote update origin --prune
             composer install
             cd web
