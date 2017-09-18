@@ -24,7 +24,7 @@ properties(
 // Variables used in this script.
     // set to /www if the repo root is the site root
     def siteFolder = '/'
-    def dbUser = 'dbUser'
+    def dbUser = 'example'
     def dbPass = 'Would Be better to set this as an Environment Variable in Jenkins'
     def branchClean = "${env.BRANCH_NAME}"
     // If the branch is a feature branch make a clean URL name.
@@ -44,23 +44,23 @@ properties(
     lock(resource: 'example', inversePrecedence: true) {
      node {
         stage('Build') {
-          dir ("/var/www/${siteName}") {
+          dir ("/var/jenkins_home/web-root/${siteName}") {
             checkout scm
           }
-          if (!fileExists("/var/www/${siteName}/web/sites/default/settings.local.php")) {
+          if (!fileExists("/var/jenkins_home/web-root/${siteName}/web/sites/default/settings.local.php")) {
             sh """
             echo \"#!/bin/bash\" > /var/jenkins_home/cleanup/${logName}.txt
             echo \"# ${env.BRANCH_NAME}\" >> /var/jenkins_home/cleanup/${logName}.txt
-            echo \"cd /var/www/${siteName}/www\" >> /var/jenkins_home/cleanup/${logName}.txt
+            echo \"cd /var/jenkins_home/web-root/${siteName}/www\" >> /var/jenkins_home/cleanup/${logName}.txt
             echo \"sudo fdperms\" >> /var/jenkins_home/cleanup/${logName}.txt
             echo \"drush sql-query 'DROP DATABASE IF EXISTS ${dbName};'\" >> /var/jenkins_home/cleanup/${logName}.txt
-            echo \"cd /var/www/\" >> /var/jenkins_home/cleanup/${logName}.txt
-            echo \"rm -rf /var/www/${siteName}\" >> /var/jenkins_home/cleanup/${logName}.txt
-            echo \"rm -rf /var/www/${siteName}@tmp\" >> /var/jenkins_home/cleanup/${logName}.txt
+            echo \"cd /var/jenkins_home/web-root/\" >> /var/jenkins_home/cleanup/${logName}.txt
+            echo \"rm -rf /var/jenkins_home/web-root/${siteName}\" >> /var/jenkins_home/cleanup/${logName}.txt
+            echo \"rm -rf /var/jenkins_home/web-root/${siteName}@tmp\" >> /var/jenkins_home/cleanup/${logName}.txt
             echo \"echo cleanup complete\" >> /var/jenkins_home/cleanup/${logName}.txt
             chmod +x /var/jenkins_home/cleanup/${logName}.txt
             """
-            dir ("/var/www/${siteName}/www") {
+            dir ("/var/jenkins_home/web-root/${siteName}/www") {
               // Create settings.local.php
               // Use External Build
               timeout(time:60, unit:'MINUTES') {
@@ -85,7 +85,7 @@ properties(
     lock(resource: 'example', inversePrecedence: true) {
       node {
        stage('Config') {
-            dir ("/var/www/${siteName}") {
+            dir ("/var/jenkins_home/web-root/${siteName}") {
             sh """
             git pull origin ${env.BRANCH_NAME}
             git remote update origin --prune
